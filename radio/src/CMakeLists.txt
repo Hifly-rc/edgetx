@@ -2,8 +2,8 @@ include(CMakeForceCompiler)
 include(Bitmaps)
 
 set(PCB_TYPES X9LITE X9LITES X7 XLITE XLITES X9D X9D+ X9E X10 X12S NV14 PL18)
-set(RADIO_LANGUAGES CN CZ DA DE EN ES FI FR HE IT JP PT RU SK SE PL HU NL TW UA)
-set(TTS_LANGUAGES CN CZ DA DE EN ES FR HE IT JP PT RU SK SE PL HU NL UA)
+set(RADIO_LANGUAGES CN CZ DA DE EN ES FI FR HE HU IT JP NL PL PT RU SE SK TW UA)
+set(TTS_LANGUAGES CN CZ DA DE EN ES FR HE HU IT JP NL PL PT RU SE SK UA)
 
 set(PCB "X9D+" CACHE STRING "Radio type, one of: ${PCB_TYPES}")
 set_property(CACHE PCB PROPERTY STRINGS ${PCB_TYPES})
@@ -523,6 +523,11 @@ add_executable(firmware ${SRC})
 link_libraries(firmware -lstdc++)
 add_dependencies(firmware ${RADIO_DEPENDENCIES})
 set_target_properties(firmware PROPERTIES EXCLUDE_FROM_ALL TRUE)
+
+if(DEBUG)
+  target_compile_definitions(firmware PRIVATE -DDEBUG)
+  target_compile_definitions(stm32_drivers_w_dbg_fw PRIVATE -DDEBUG)
+endif()
 
 target_link_options(firmware PRIVATE
   -lm -T${LINKER_DIR}/firmware.ld

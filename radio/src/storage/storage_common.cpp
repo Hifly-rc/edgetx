@@ -70,7 +70,7 @@ void preModelLoad()
 
   stopTrainer();
 #if defined(COLORLCD)
-  deleteCustomScreens();
+  LayoutFactory::deleteCustomScreens();
 #endif
 
   if (needDelay)
@@ -181,6 +181,10 @@ void postModelLoad(bool alarms)
   g_model.modelGVDisabled = false;
 #endif
 
+#if defined(FUNCTION_SWITCHES)
+  setFSStartupPosition();
+#endif
+
   // Convert 'noGlobalFunctions' to 'radioGFDisabled'
   // TODO: Remove sometime in the future (and remove 'noGlobalFunctions' property)
   if (g_model.noGlobalFunctions) {
@@ -267,10 +271,11 @@ if(g_model.rssiSource) {
 #endif
 
 #if defined(COLORLCD)
-  loadCustomScreens();
+  LayoutFactory::loadCustomScreens();
+#else
+  LOAD_MODEL_BITMAP();
 #endif
 
-  LOAD_MODEL_BITMAP();
   LUA_LOAD_MODEL_SCRIPTS();
 
   SEND_FAILSAFE_1S();

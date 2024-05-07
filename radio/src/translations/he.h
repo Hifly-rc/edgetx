@@ -279,7 +279,7 @@
 #define TR_TTRACE                      TR("T-Source", INDENT "מקור")
 #define TR_TTRIM                       TR("T-Trim-Idle", INDENT "Trim idle only")
 #define TR_TTRIM_SW                    TR("T-Trim-Sw", INDENT "מתג קיזוז")
-#define TR_BEEPCTR                     TR("Ctr Beep", "Center Beep")
+#define TR_BEEPCTR                     TR("Ctr Beep", "ציפצוף במרכז")
 #define TR_USE_GLOBAL_FUNCS            TR("Glob.Funcs", "שימוש בפונקציות גלובליות")
 #define TR_PROTOCOL                    TR("Proto", "Protocol")
 #define TR_PPMFRAME                    INDENT "PPM frame"
@@ -1289,3 +1289,11 @@
 #define TR_CREATE_NEW             "יצירה חדשה"
 
 #define TR_MIX_SLOW_PREC          TR("Slow prec", "Slow up/dn prec")
+
+#define TR_THEME_EXISTS           "כבר קיימת ערכת נושא עם אותו שם"
+
+#define TR_DATE_TIME_WIDGET       "תאריך ושעה"
+#define TR_RADIO_INFO_WIDGET      "מידע השלט"
+#define TR_LOW_BATT_COLOR         "מתח סוללה נמוך"
+#define TR_MID_BATT_COLOR         "מתח סוללה בינוני"
+#define TR_HIGH_BATT_COLOR        "מתח סוללה גבוה"

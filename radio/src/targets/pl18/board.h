@@ -42,6 +42,10 @@ extern uint16_t sessionTimer;
 
 #define SLAVE_MODE()                    (g_model.trainerData.mode == TRAINER_MODE_SLAVE)
 
+// Initilizes the board for the bootloader
+#define HAVE_BOARD_BOOTLOADER_INIT 1
+void boardBootloaderInit();
+
 // Board driver
 void boardInit();
 void boardOff();
@@ -222,7 +226,6 @@ void hapticOff();
 void hapticOn(uint32_t pwmPercent);
 
 // Second serial port driver
-//#define AUX_SERIAL
 #define DEBUG_BAUDRATE                  115200
 #define LUA_DEFAULT_BAUDRATE            115200
 

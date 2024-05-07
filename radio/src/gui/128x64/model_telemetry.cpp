@@ -174,10 +174,7 @@ void menuModelTelemetry(event_t event)
         s_currIdx = index;
         if (event == EVT_KEY_LONG(KEY_ENTER)) {
           killEvents(event);
-          POPUP_MENU_ADD_ITEM(STR_EDIT);
-          POPUP_MENU_ADD_ITEM(STR_COPY);
-          POPUP_MENU_ADD_ITEM(STR_DELETE);
-          POPUP_MENU_START(onSensorMenu);
+          POPUP_MENU_START(onSensorMenu, 3, STR_EDIT, STR_COPY, STR_DELETE);
         }
         else if (event == EVT_KEY_BREAK(KEY_ENTER)) {
           pushMenu(menuModelSensor);
@@ -271,7 +268,7 @@ void menuModelTelemetry(event_t event)
         lcdDrawTextAlignedLeft(y, INDENT TR_SOURCE);
         drawSource(TELEM_COL2, y, g_model.varioData.source ? MIXSRC_FIRST_TELEM+3*(g_model.varioData.source-1) : 0, attr);
         if (attr) {
-          g_model.varioData.source = checkIncDec(event, g_model.varioData.source, 0, MAX_TELEMETRY_SENSORS, EE_MODEL|NO_INCDEC_MARKS, isSensorAvailable);
+          g_model.varioData.source = checkIncDec(event, g_model.varioData.source, 0, MAX_TELEMETRY_SENSORS, EE_MODEL|NO_INCDEC_MARKS, isVarioSensorAvailable);
         }
         break;
 

@@ -271,7 +271,7 @@
 #define TR_TTRACE                      TR("输入源", INDENT "输入源")
 #define TR_TTRIM                       TR("油门微调仅怠速", INDENT "油门微调只调整怠速")
 #define TR_TTRIM_SW                    TR("微调选择", INDENT "微调选择")
-#define TR_BEEPCTR                     TR("中点蜂鸣", "中点蜂鸣")
+#define TR_BEEPCTR                     TR("中点提示音", "中点蜂鸣提示音")
 #define TR_USE_GLOBAL_FUNCS            TR("全局功能", "全局功能可介入")
 #define TR_PPMFRAME                    INDENT "PPM帧"
 #define TR_REFRESHRATE                 TR(INDENT "刷新率", INDENT "刷新速率")
@@ -1109,7 +1109,7 @@
 #define TR_CURRENTSENSOR               "传感器"
 #define TR_AUTOOFFSET                  "自动偏移值"
 #define TR_ONLYPOSITIVE                "正向"
-#define TR_FILTER                      "滤波"
+#define TR_FILTER                      "滤波器"
 #define TR_TELEMETRYFULL               TR("项目已满!", "回传项目已满!")
 #define TR_INVERTED_SERIAL             INDENT "反向"
 #define TR_IGNORE_INSTANCE             TR(INDENT "忽略ID", INDENT "忽略ID鉴别")
@@ -1153,7 +1153,7 @@
 #define TR_MENU_OTHER                  "其它"
 #define TR_MENU_INVERT                 "反向"
 #define TR_AUDIO_MUTE                  TR("自动静音","音频停播时自动静音")
-#define TR_JITTER_FILTER               "模拟输入滤波"
+#define TR_JITTER_FILTER               "ADC滤波器"
 #define TR_DEAD_ZONE                   "死区"
 #define TR_RTC_CHECK                   TR("检查时间电池", "检查时间驱动电池电压")
 #define TR_AUTH_FAILURE                "验证失败"
@@ -1204,7 +1204,7 @@
 
 // Main menu
 #define TR_MAIN_MENU_SELECT_MODEL     "模型选择"
-#define TR_MAIN_MENU_MANAGE_MODELS    "模型\n管理"
+#define TR_MAIN_MENU_MANAGE_MODELS    "模型管理"
 #define TR_MAIN_MENU_MODEL_NOTES      "模型说明"
 #define TR_MAIN_MENU_CHANNEL_MONITOR  "通道查看"
 #define TR_MAIN_MENU_MODEL_SETTINGS   "模型设置"
@@ -1283,3 +1283,13 @@
 #define TR_CREATE_NEW             "新建"
 
 #define TR_MIX_SLOW_PREC          TR("慢放精度", "慢放精度 上行/下行")
+
+#define TR_THEME_EXISTS           "已存在同名主题目录 !"
+
+#define ROTORFLIGHT_LUA_CH        "按败板半保备闭标表并波补不菜参叉差偿超车持池出存打大带待怠单到等低地点电调定动度舵二翻方放飞副复负高跟关管航号何合后护环缓回混火或机积集几计加间减件降交角教接阶截进救距开控宽馈拉来累类连练量零灵率滤螺落门面敏模目逆爬盘偏频平其启器前曲取确然入刹上设身升失时使式释试数衰水瞬顺速缩他态体停通退陀微尾位文稳误息熄下陷限线相响向消小校斜新心信型行悬旋循压页一移仪益翼因应用油右预援源载增针正直值止置制中重轴主转准子自踪总最左耦"
+
+#define TR_DATE_TIME_WIDGET       "日期和时间"
+#define TR_RADIO_INFO_WIDGET      "遥控器信息"
+#define TR_LOW_BATT_COLOR         "低电量"
+#define TR_MID_BATT_COLOR         "中电量"
+#define TR_HIGH_BATT_COLOR        "高电量"

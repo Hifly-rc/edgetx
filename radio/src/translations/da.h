@@ -278,7 +278,7 @@
 #define TR_TTRACE                      TR("T-kilde", INDENT "kilde")
 #define TR_TTRIM                       TR("T-trim-tomg", INDENT "Trim tomgang alene")
 #define TR_TTRIM_SW                    TR("T-trim-ko", INDENT "Trim kontakt")
-#define TR_BEEPCTR                     TR("Ctr Bip", "Center Bip")
+#define TR_BEEPCTR                     TR("Bip ctr pos", "Bip ved center position")
 #define TR_USE_GLOBAL_FUNCS            TR("Glob.Funk.", "Brug global funk.")
 #define TR_PROTOCOL                    TR("Proto", "Protokol")
 #define TR_PPMFRAME                    INDENT "PPM frame"
@@ -1298,3 +1298,11 @@
 #define TR_CREATE_NEW             "Opret"
 
 #define TR_MIX_SLOW_PREC          TR("Træg præc", "Træg op/ned præcision")
+
+#define TR_THEME_EXISTS           "Der findes allerede et katalog med samme navn."
+
+#define TR_DATE_TIME_WIDGET       "Dato & Klokke"
+#define TR_RADIO_INFO_WIDGET      "Radio info"
+#define TR_LOW_BATT_COLOR         "Batteri lavt"
+#define TR_MID_BATT_COLOR         "Batteri medio"
+#define TR_HIGH_BATT_COLOR        "Batteri højt"

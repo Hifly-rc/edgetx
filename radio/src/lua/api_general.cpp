@@ -2062,24 +2062,6 @@ static int luaGetRSSI(lua_State * L)
 }
 
 /*luadoc
-@function chdir(directory)
-
- Change the working directory
-
-@param directory (string) New working directory
-
-@status current Introduced in 2.3.0
-
-*/
-
-static int luaChdir(lua_State * L)
-{
-  const char * directory = luaL_optstring(L, 1, nullptr);
-  f_chdir(directory);
-  return 0;
-}
-
-/*luadoc
 @function loadScript(file [, mode], [,env])
 
 Load a Lua script file. This is similar to Lua's own [loadfile()](https://www.lua.org/manual/5.2/manual.html#pdf-loadfile)
@@ -2932,7 +2914,6 @@ LROT_BEGIN(etxlib, NULL, 0)
   LROT_FUNCENTRY( defaultChannel, luaDefaultChannel )
   LROT_FUNCENTRY( getRSSI, luaGetRSSI )
   LROT_FUNCENTRY( killEvents, luaKillEvents )
-  LROT_FUNCENTRY( chdir, luaChdir )
   LROT_FUNCENTRY( loadScript, luaLoadScript )
   LROT_FUNCENTRY( getUsage, luaGetUsage )
   LROT_FUNCENTRY( getAvailableMemory, luaGetAvailableMemory )
@@ -3129,8 +3110,8 @@ LROT_BEGIN(etxcst, NULL, 0)
   LROT_NUMENTRY( WARNING_COLOR, COLOR2FLAGS(COLOR_THEME_WARNING_INDEX) )
 
   // Literal colors
-  LROT_NUMENTRY( BLACK, RGB2FLAGS(0x00, 0x00, 0x00) )
-  LROT_NUMENTRY( WHITE, RGB2FLAGS(0xFF, 0xFF, 0xFF) )
+  LROT_NUMENTRY( BLACK, COLOR2FLAGS(COLOR_BLACK_INDEX) )
+  LROT_NUMENTRY( WHITE, COLOR2FLAGS(COLOR_WHITE_INDEX) )
   LROT_NUMENTRY( LIGHTWHITE, RGB2FLAGS(0xEA, 0xEA, 0xEA) )
   LROT_NUMENTRY( YELLOW, RGB2FLAGS(0xFF, 0xFF, 0x00) )
   LROT_NUMENTRY( BLUE, RGB2FLAGS(0x00, 0x00, 0xFF) )

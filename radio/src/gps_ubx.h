@@ -1,12 +1,6 @@
 /*
  * Copyright (C) EdgeTX
  *
- * Based on code named
- *   opentx - https://github.com/opentx/opentx
- *   th9x - http://code.google.com/p/th9x
- *   er9x - http://code.google.com/p/er9x
- *   gruvin9x - http://code.google.com/p/gruvin9x
- *
  * License GPLv2: http://www.gnu.org/licenses/gpl-2.0.html
  *
  * This program is free software; you can redistribute it and/or modify
@@ -19,11 +13,11 @@
  * GNU General Public License for more details.
  */
 
-#pragma once
+#ifndef _GPS_UBX_H_
+#define _GPS_UBX_H_
 
-constexpr coord_t INPUT_EDIT_CURVE_WIDTH = 132;
-constexpr coord_t INPUT_EDIT_CURVE_HEIGHT = INPUT_EDIT_CURVE_WIDTH;
-constexpr coord_t MENUS_MAX_HEIGHT = (MENUS_LINE_HEIGHT * 8) + 8;
+#include <inttypes.h>
 
-// Disable rotary encoder, as the PL18 does not have one
-#define ROTARY_ENCODER_SPEED() 0
+bool gpsNewFrameUBX(uint8_t c, bool detect);
+
+#endif // _GPS_UBX_H_

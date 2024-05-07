@@ -461,14 +461,14 @@ int cliTestSD(const char ** argv)
 
 int cliTestNew()
 {
-  char * tmp = 0;
+  char * tmp = nullptr;
   cliSerialPrint("Allocating 1kB with new()");
   RTOS_WAIT_MS(200);
   tmp = new char[1024];
   if (tmp) {
     cliSerialPrint("\tsuccess");
     delete[] tmp;
-    tmp = 0;
+    tmp = nullptr;
   }
   else {
     cliSerialPrint("\tFAILURE");
@@ -480,7 +480,7 @@ int cliTestNew()
   if (tmp) {
     cliSerialPrint("\tFAILURE, tmp = %p", tmp);
     delete[] tmp;
-    tmp = 0;
+    tmp = nullptr;
   }
   else {
     cliSerialPrint("\tsuccess, allocaton failed, tmp = 0");
@@ -492,7 +492,7 @@ int cliTestNew()
   if (tmp) {
     cliSerialPrint("\tFAILURE, tmp = %p", tmp);
     delete[] tmp;
-    tmp = 0;
+    tmp = nullptr;
   }
   else {
     cliSerialPrint("\tsuccess, allocaton failed, tmp = 0");
@@ -1134,7 +1134,7 @@ int cliSerialPassthrough(const char **argv)
       cliReceiveCallBack = spInternalModuleTx;
 
       // loop until cable disconnected
-      while (cdcConnected) {
+      while (usbPlugged()) {
 
         uint32_t cli_br = cliGetBaudRate();
         if (cli_br && (cli_br != (uint32_t)baudrate)) {

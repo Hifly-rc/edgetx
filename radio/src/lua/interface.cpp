@@ -74,7 +74,7 @@ uint8_t instructionsPercent = 0;
 tmr10ms_t luaCycleStart;
 char lua_warning_info[LUA_WARNING_INFO_LEN+1];
 uint8_t errorState;
-struct our_longjmp * global_lj = 0;
+struct our_longjmp * global_lj = nullptr;
 #if defined(COLORLCD)
 uint32_t luaExtraMemoryUsage = 0;
 #endif
@@ -745,17 +745,17 @@ void displayLuaError(bool firstCall = false)
   
   if (!drewBackground) {
     drewBackground = true;
-    luaLcdBuffer->drawFilledRect(0, 0, LCD_W, LCD_H, SOLID, BLACK, OPACITY(6));
+    luaLcdBuffer->drawFilledRect(0, 0, LCD_W, LCD_H, SOLID, COLOR_BLACK, OPACITY(6));
   }
 
   luaLcdBuffer->drawSolidFilledRect(left, top - hh, w, hh, COLOR_THEME_SECONDARY1);
   luaLcdBuffer->drawSolidFilledRect(left, top, w, h, COLOR_THEME_SECONDARY3);
 #if (LCD_W > LCD_H)
   luaLcdBuffer->drawText(left + 10, top - hh + 2, title, FONT(XL) | COLOR_THEME_PRIMARY2);
-  drawTextLines(luaLcdBuffer, left + 10, top + 5, w - 20, h - 10, lua_warning_info, FONT(L) | COLOR_THEME_PRIMARY1);
+  luaLcdBuffer->drawTextLines(left + 10, top + 5, w - 20, h - 10, lua_warning_info, FONT(L) | COLOR_THEME_PRIMARY1);
 #else
   luaLcdBuffer->drawText(left + 10, top - hh + 2, title, FONT(L) | COLOR_THEME_PRIMARY2);
-  drawTextLines(luaLcdBuffer, left + 10, top + 5, w - 20, h - 10, lua_warning_info, FONT(STD) | COLOR_THEME_PRIMARY1);
+  luaLcdBuffer->drawTextLines(left + 10, top + 5, w - 20, h - 10, lua_warning_info, FONT(STD) | COLOR_THEME_PRIMARY1);
 #endif
 #else
   if (!luaLcdAllowed)
@@ -932,7 +932,7 @@ static void luaLoadScripts(bool init, const char * filename = nullptr)
     // 1. run chunk() 2. run init(), if available:
     do {
       // Resume running the coroutine
-      luaStatus = lua_resume(lsScripts, 0, 0);
+      luaStatus = lua_resume(lsScripts, nullptr, 0);
      
       if (luaStatus == LUA_YIELD) {
         // Coroutine yielded - wait for the next cycle
@@ -1156,7 +1156,7 @@ static bool resumeLua(bool init, bool allowLcdUsage)
     fullGC = false;
 
     // Resume running the coroutine
-    luaStatus = lua_resume(lsScripts, 0, inputsCount);
+    luaStatus = lua_resume(lsScripts, nullptr, inputsCount);
 
     if (luaStatus == LUA_YIELD) {
       // Coroutine yielded - wait for the next cycle
@@ -1191,6 +1191,7 @@ static bool resumeLua(bool init, bool allowLcdUsage)
          
           if (scriptResult != 0) {
             TRACE("Script finished with status %d", scriptResult);
+            killAllEvents();
             luaState = INTERPRETER_RELOAD_PERMANENT_SCRIPTS;
           }
           else if (luaDisplayStatistics) {
@@ -1339,7 +1340,7 @@ void luaInit()
 #if defined(USE_BIN_ALLOCATOR)
     L = lua_newstate(bin_l_alloc, nullptr);   //we use our own allocator!
 #elif defined(LUA_ALLOCATOR_TRACER)
-    memclear(&lsScriptsTrace, sizeof(lsScriptsTrace);
+    memclear(&lsScriptsTrace, sizeof(lsScriptsTrace));
     lsScriptsTrace.script = "lua_newstate(scripts)";
     L = lua_newstate(tracer_alloc, &lsScriptsTrace);   //we use tracer allocator
 #else

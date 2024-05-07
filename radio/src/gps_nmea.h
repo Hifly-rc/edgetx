@@ -19,30 +19,13 @@
  * GNU General Public License for more details.
  */
 
-#pragma once
+#ifndef _GPS_NMEA_H_
+#define _GPS_NMEA_H_
 
-#include "libopenui.h"
-#include "textedit.h"
-#include "storage/storage.h"
+#include <inttypes.h>
 
-class ModelTextEdit : public TextEdit
-{
- public:
-  ModelTextEdit(Window* parent, const rect_t& rect, char* value, uint8_t length,
-                LcdFlags windowFlags = 0) :
-      TextEdit(parent, rect, value, length, windowFlags)
-  {
-    setChangeHandler([]() { storageDirty(EE_MODEL); });
-  }
-};
+bool gpsNewFrameNMEA(char c);
 
-class RadioTextEdit : public TextEdit
-{
- public:
-  RadioTextEdit(Window* parent, const rect_t& rect, char* value, uint8_t length,
-                LcdFlags windowFlags = 0) :
-      TextEdit(parent, rect, value, length, windowFlags)
-  {
-    setChangeHandler([]() { storageDirty(EE_GENERAL); });
-  }
-};
+void gpsSendFrameNMEA(const char * frame);
+
+#endif // _GPS_NMEA_H_

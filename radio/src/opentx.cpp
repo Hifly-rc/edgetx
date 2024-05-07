@@ -53,6 +53,7 @@
   #include "view_text.h"
   #include "theme.h"
   #include "switch_warn_dialog.h"
+  #include "startup_shutdown.h"
 
   #include "gui/colorlcd/LvglWrapper.h"
 #endif
@@ -64,9 +65,6 @@
 #if !defined(SIMU)
 #include <malloc.h>
 #endif
-
-extern void startSplash();
-extern void waitSplash();
 
 RadioData  g_eeGeneral;
 ModelData  g_model;
@@ -210,11 +208,6 @@ void per10ms()
   telemetryInterrupt10ms();
 
   // These moved here from evalFlightModeMixes() to improve beep trigger reliability.
-#if defined(PWM_BACKLIGHT)
-  if ((g_tmr10ms&0x03) == 0x00)
-    backlightFade(); // increment or decrement brightness until target brightness is reached
-#endif
-
 #if !defined(AUDIO)
   if (mixWarning & 1) if(((g_tmr10ms&0xFF)==  0)) AUDIO_MIX_WARNING(1);
   if (mixWarning & 2) if(((g_tmr10ms&0xFF)== 64) || ((g_tmr10ms&0xFF)== 72)) AUDIO_MIX_WARNING(2);
@@ -653,6 +646,7 @@ void checkAll()
   disableVBatBridge();
 
   if (g_model.displayChecklist && modelHasNotes()) {
+    cancelSplash();
     readModelNotes();
   }
 
@@ -1089,15 +1083,8 @@ void edgeTxClose(uint8_t shutdown)
   RTOS_WAIT_MS(100);
 
 #if defined(COLORLCD)
-  // clear layer stack first
-  for (Window* w = Layer::back(); w; w = Layer::back()) w->deleteLater();
-  MainWindow::instance()->clear();
-  // this is necessary as the custom screens are not deleted
-  // by using deleteCustomScreens(), but here through it's parent window
-  memset(customScreens, 0, sizeof(customScreens));
-
-  //TODO: In fact we want only to empty the trash (private method)
-  MainWindow::instance()->run();
+  cancelShutdownAnimation();  // To prevent simulator crash
+  MainWindow::instance()->shutdown();
 #if defined(LUA)
   luaUnregisterWidgets();
   luaClose(&lsWidgets);
@@ -1126,10 +1113,6 @@ void edgeTxResume()
   //TODO: needs to go into storageReadAll()
   TRACE("reloading theme");
   EdgeTxTheme::instance()->load();
-
-  // Force redraw
-  ViewMain::instance()->invalidate();
-  TRACE("theme reloaded & ViewMain invalidated");
 #endif
 
   referenceSystemAudioFiles();
@@ -1494,10 +1477,8 @@ void edgeTxInit()
 
 #if defined(GUI)
     if (!calibration_needed && !(startOptions & OPENTX_START_NO_SPLASH)) {
-      if (!g_eeGeneral.dontPlayHello)
-        AUDIO_HELLO();
+      if (!g_eeGeneral.dontPlayHello) AUDIO_HELLO();
 
-      // Wait until splash screen done
       waitSplash();
     }
 #endif // defined(GUI)
@@ -1524,6 +1505,7 @@ void edgeTxInit()
 
 #if defined(GUI)
     if (calibration_needed) {
+      cancelSplash();
 #if defined(LIBOPENUI)
       startCalibration();
 #else
@@ -1730,6 +1712,8 @@ uint32_t pwrCheck()
           }
 #else  // COLORLCD
 
+          cancelShutdownAnimation();
+
           const char* message = nullptr;
           std::function<bool(void)> closeCondition = nullptr;
           if (!usbConfirmed) {
@@ -1791,6 +1775,9 @@ uint32_t pwrCheck()
     }
   }
   else {
+#if defined(COLORLCD)
+    cancelShutdownAnimation();
+#endif
     pwr_check_state = PWR_CHECK_ON;
     pwr_press_time = 0;
   }
@@ -1884,4 +1871,54 @@ bool modelCustomScriptsEnabled() {
 }
 bool modelTelemetryEnabled() {
   return FEATURE_ENABLED(modelTelemetryDisabled);
+}
+
+void getMixSrcRange(const int source, int16_t & valMin, int16_t & valMax, LcdFlags * flags)
+{
+  if (source >= MIXSRC_FIRST_TRIM && source <= MIXSRC_LAST_TRIM) {
+    valMax = g_model.extendedTrims ? TRIM_EXTENDED_MAX : TRIM_MAX;
+    valMin = -valMax;
+  }
+#if defined(LUA_INPUTS)
+  else if (source >= MIXSRC_FIRST_LUA && source <= MIXSRC_LAST_LUA) {
+    valMax = 30000;
+    valMin = -valMax;
+  }
+#endif
+  else if (source < MIXSRC_FIRST_CH) {
+    valMax = 100;
+    valMin = -valMax;
+  }
+  else if (source <= MIXSRC_LAST_CH) {
+    valMax = g_model.extendedLimits ? LIMIT_EXT_PERCENT : 100;
+    valMin = -valMax;
+  }
+#if defined(GVARS)
+  else if (source >= MIXSRC_FIRST_GVAR && source <= MIXSRC_LAST_GVAR) {
+    valMax = min<int>(CFN_GVAR_CST_MAX, MODEL_GVAR_MAX(source-MIXSRC_FIRST_GVAR));
+    valMin = max<int>(CFN_GVAR_CST_MIN, MODEL_GVAR_MIN(source-MIXSRC_FIRST_GVAR));
+    if (flags && g_model.gvars[source-MIXSRC_FIRST_GVAR].prec)
+      *flags |= PREC1;
+  }
+#endif
+  else if (source == MIXSRC_TX_VOLTAGE) {
+    valMax =  255;
+    valMin = 0;
+    if (flags)
+      *flags |= PREC1;
+  }
+  else if (source == MIXSRC_TX_TIME) {
+    valMax =  23 * 60 + 59;
+    valMin = 0;
+  }
+  else if (source >= MIXSRC_FIRST_TIMER && source <= MIXSRC_LAST_TIMER) {
+    valMax =  9 * 60 * 60 - 1;
+    valMin = -valMax;
+    if (flags)
+      *flags |= TIMEHOUR;
+  }
+  else {
+    valMax = 30000;
+    valMin = -valMax;
+  }
 }

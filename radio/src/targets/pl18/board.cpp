@@ -21,6 +21,7 @@
  
 #include "stm32_adc.h"
 
+#include "stm32_gpio_driver.h"
 #include "stm32_ws2812.h"
 #include "boards/generic_stm32/rgb_leds.h"
 
@@ -98,6 +99,19 @@ void ledStripOff()
   ws2812_update(&_led_timer);
 }
 
+void boardBootloaderInit()
+{
+  // USB charger status pins
+  stm32_gpio_enable_clock(UCHARGER_GPIO);
+  GPIO_InitTypeDef GPIO_InitStructure;
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
+  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
+  GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
+  GPIO_InitStructure.GPIO_Pin = UCHARGER_GPIO_PIN;
+  GPIO_Init(UCHARGER_GPIO, &GPIO_InitStructure);
+}
+
 void boardInit()
 {
 #if defined(SEMIHOSTING)
@@ -114,7 +128,7 @@ void boardInit()
   __enable_irq();
 #endif
 
-#if defined(DEBUG)
+#if defined(DEBUG) && defined(AUX_SERIAL)
   serialSetMode(SP_AUX1, UART_MODE_DEBUG);                // indicate AUX1 is used
   serialInit(SP_AUX1, UART_MODE_DEBUG);                   // early AUX1 init
 #endif

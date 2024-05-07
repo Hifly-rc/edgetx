@@ -275,7 +275,7 @@
 #define TR_TTRACE                       TR("Sor. Mot.", INDENT "Sorgente Motore")
 #define TR_TTRIM                        TR("Trim Mot.", INDENT "Trim Motore")
 #define TR_TTRIM_SW                     TR("T-Trim-Sw", INDENT "Trim switch")
-#define TR_BEEPCTR                      TR("Beep al c.", "Beep al centro")
+#define TR_BEEPCTR                      TR("Beep Ctr", "Beep quando centrato")
 #define TR_USE_GLOBAL_FUNCS             TR("Funz. Glob.", "Usa Funz. Globali")
 #define TR_PROTOCOL                     TR("Protoc.", "Protocollo")
 #define TR_PPMFRAME                     INDENT "Frame PPM"
@@ -1281,3 +1281,11 @@
 #define TR_CREATE_NEW             "Crea"
 
 #define TR_MIX_SLOW_PREC          TR("Prec. lenta", "Prec. su/giù lenta")
+
+#define TR_THEME_EXISTS           "Esiste già una cartella di temi con lo stesso nome."
+
+#define TR_DATE_TIME_WIDGET       "Data & Ora"
+#define TR_RADIO_INFO_WIDGET      "Radio Info" 
+#define TR_LOW_BATT_COLOR         "Batteria scarica"
+#define TR_MID_BATT_COLOR         "Batteria media"
+#define TR_HIGH_BATT_COLOR        "Batteria carica"

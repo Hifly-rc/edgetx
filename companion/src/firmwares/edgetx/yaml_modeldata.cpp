@@ -38,8 +38,8 @@
 #include "helpers.h"
 
 #include <string>
-
-SemanticVersion version;  // used for data conversions
+#include <QMessageBox>
+#include <QPushButton>
 
 void YamlValidateLabelsNames(ModelData& model, Board::Type board)
 {
@@ -263,6 +263,88 @@ struct YamlBeepANACenter {
   }
 };
 
+//  modeldata: uint64_t switchWarningStates
+//  Yaml switchWarning:
+//           SA:
+//              pos: mid
+//           SB:
+//              pos: up
+//           FL1:
+//              pos: down
+struct YamlSwitchWarning {
+
+  static constexpr size_t MASK_LEN = 2;
+  static constexpr size_t MASK = (1 << MASK_LEN) - 1;
+
+  unsigned int enabled;
+
+  YamlSwitchWarning() = default;
+
+  YamlSwitchWarning(YAML::Node& node, uint64_t cpn_value, unsigned int switchWarningEnable)
+    : enabled(~switchWarningEnable)
+  {
+    uint64_t states = cpn_value;
+
+    for (int i = 0; i < Boards::getCapability(getCurrentBoard(), Board::Switches); i++) {
+      if (!Boards::isSwitchFunc(i) && (enabled & (1 << i))) {
+        std::string posn;
+
+        switch(states & MASK) {
+        case 0:
+          posn = "up";
+          break;
+        case 1:
+          posn = "mid";
+          break;
+        case 2:
+          posn = "down";
+          break;
+        }
+
+        node[Boards::getSwitchTag(i).toStdString()]["pos"] = posn;
+      }
+
+      states >>= MASK_LEN;
+    }
+  }
+
+  uint64_t toCpn(const YAML::Node &warn)
+  {
+    uint64_t states = 0;
+    enabled = 0;
+
+    if (warn.IsMap()) {
+      for (const auto& sw : warn) {
+        std::string tag;
+        sw.first >> tag;
+        int index = Boards::getSwitchIndex(tag.c_str(), Board::LVT_NAME);
+
+        if (index < 0)
+          continue;
+
+        std::string posn;
+        if (warn[tag]["pos"])
+          warn[tag]["pos"] >> posn;
+
+        int value = 0;
+
+        if (posn == "up")
+          value = 0;
+        else if (posn == "mid")
+          value = 1;
+        else if (posn == "down")
+          value = 2;
+
+        states |= ((uint64_t)value << (index * MASK_LEN));
+        enabled |= (1 << index);
+      }
+    }
+
+    return states;
+  }
+};
+
+//  Depreciated - only used for decoding refer YamlSwitchWarning for replacement
 //  modeldata: uint64_t switchWarningStates
 //  Yaml switchWarningState: AuBuEuFuG-IuJu
 struct YamlSwitchWarningState {
@@ -867,7 +949,7 @@ struct convert<FrSkyScreenData> {
 
 Node convert<ModelData>::encode(const ModelData& rhs)
 {
-  version = SemanticVersion(VERSION);
+  modelSettingsVersion = SemanticVersion(VERSION);
 
   Node node;
   auto board = getCurrentBoard();
@@ -985,8 +1067,11 @@ Node convert<ModelData>::encode(const ModelData& rhs)
   YamlThrTrace thrTrace(rhs.thrTraceSrc);
   node["thrTraceSrc"] = thrTrace.src;
 
-  YamlSwitchWarningState switchWarningState(rhs.switchWarningStates, rhs.switchWarningEnable);
-  node["switchWarningState"] = switchWarningState.src_str;
+  Node sw_warn;
+  YamlSwitchWarning switchWarning(sw_warn, rhs.switchWarningStates, rhs.switchWarningEnable);
+  if (sw_warn && sw_warn.IsMap()) {
+    node["switchWarning"] = sw_warn;
+  }
 
   node["thrTrimSw"] = rhs.thrTrimSwitch;
   node["potsWarnMode"] = potsWarningModeLut << rhs.potsWarningMode;
@@ -1163,9 +1248,6 @@ bool convert<ModelData>::decode(const Node& node, ModelData& rhs)
 
   qDebug() << "Settings version:" << modelSettingsVersion.toString();
 
-  if (modelSettingsVersion > SemanticVersion(VERSION))
-    qDebug() << "Warning: version not supported by Companion!";
-
   if (node["header"]) {
     const auto& header = node["header"];
     if (header.IsMap()) {
@@ -1174,6 +1256,24 @@ bool convert<ModelData>::decode(const Node& node, ModelData& rhs)
       header["labels"] >> rhs.labels;
       header["modelId"] >> modelIds;
     }
+  }
+
+  //  TODO display model filename in preference to model name as easier for user
+  if (modelSettingsVersion > SemanticVersion(VERSION)) {
+    QString prmpt = QCoreApplication::translate("YamlModelSettings", "Warning: '%1' has settings version %2 that is not supported by this version of Companion!\n\nModel settings may be corrupted if you continue.");
+    prmpt = prmpt.arg(rhs.name).arg(modelSettingsVersion.toString());
+    QMessageBox msgBox;
+    msgBox.setWindowTitle(QCoreApplication::translate("YamlModelSettings", "Read Model Settings"));
+    msgBox.setText(prmpt);
+    msgBox.setIcon(QMessageBox::Warning);
+    QPushButton *pbAccept = new QPushButton(CPN_STR_TTL_ACCEPT);
+    QPushButton *pbDecline = new QPushButton(CPN_STR_TTL_DECLINE);
+    msgBox.addButton(pbAccept, QMessageBox::AcceptRole);
+    msgBox.addButton(pbDecline, QMessageBox::RejectRole);
+    msgBox.setDefaultButton(pbDecline);
+    msgBox.exec();
+    if (msgBox.clickedButton() == pbDecline)
+      return false;
   }
 
   if (node["timers"]) {
@@ -1224,10 +1324,17 @@ bool convert<ModelData>::decode(const Node& node, ModelData& rhs)
   node["thrTraceSrc"] >> thrTrace.src;
   rhs.thrTraceSrc = thrTrace.toCpn();
 
-  YamlSwitchWarningState switchWarningState;
-  node["switchWarningState"] >> switchWarningState.src_str;
-  rhs.switchWarningStates = switchWarningState.toCpn();
-  rhs.switchWarningEnable = ~switchWarningState.enabled;
+  if (node["switchWarning"]) {
+    YamlSwitchWarning switchWarning;
+    rhs.switchWarningStates = switchWarning.toCpn(node["switchWarning"]);
+    rhs.switchWarningEnable = ~switchWarning.enabled;
+  }
+  else if (node["switchWarningState"]) {         // depreciated
+    YamlSwitchWarningState switchWarningState;
+    node["switchWarningState"] >> switchWarningState.src_str;
+    rhs.switchWarningStates = switchWarningState.toCpn();
+    rhs.switchWarningEnable = ~switchWarningState.enabled;
+  }
 
   node["thrTrimSw"] >> rhs.thrTrimSwitch;
   node["potsWarnMode"] >> potsWarningModeLut >> rhs.potsWarningMode;

@@ -247,7 +247,6 @@
   #define TR_POPUPS_ENTER_EXIT         TR_ENTER "\010" TR_EXIT
 #endif
 
-#define TR_MENUWHENDONE        CENTER "\006" TR_ENTER " > DALEJ"
 #define TR_FREE                "woln"
 #define TR_YES                 "Tak"
 #define TR_NO                  "Nie"
@@ -273,7 +272,7 @@
 #define TR_TTRACE              TR("Źród gaz", INDENT "Źródło gazu ")
 #define TR_TTRIM               TR("TryGaz", INDENT "TrymWolnObrotó")
 #define TR_TTRIM_SW            TR("T-Trim-Sw", INDENT "Trim switch")
-#define TR_BEEPCTR             TR("ŚrodBeep", "Pikn.Środka")
+#define TR_BEEPCTR             TR("Dźwięk środ.", "Dźwięk środ. położenia")
 #define TR_USE_GLOBAL_FUNCS    TR("Funk.Glb.","Użyj Funkcji Glb")
 #define TR_PROTOCOL            TR("Proto", "Protokół")
 #define TR_PPMFRAME            INDENT "Ramka PPM"
@@ -1286,3 +1285,11 @@
 #define TR_CREATE_NEW             "Utwórz"
 
 #define TR_MIX_SLOW_PREC          TR("Wolna prec.", "Wolna prec. góra/dół")
+
+#define TR_THEME_EXISTS           "Folder szablonów o takiej samej nazwie już istnieje."
+
+#define TR_DATE_TIME_WIDGET       "Data i czas"
+#define TR_RADIO_INFO_WIDGET      "Informacje o radiu"
+#define TR_LOW_BATT_COLOR         "Rozładowana bateria"
+#define TR_MID_BATT_COLOR         "Średni stan baterii"
+#define TR_HIGH_BATT_COLOR        "Naładowana bateria"

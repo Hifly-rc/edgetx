@@ -22,6 +22,20 @@
 #include "eeprominterface.h"
 #include "boardjson.h"
 
+//   v2.10, v2.9
+static const StringTagMappingTable funcSwitchConversionTable = {
+    {"SA",  "SA"},
+    {"SB",  "SB"},
+    {"SC",  "SC"},
+    {"SD",  "SD"},
+    {"SW1", "SE"},
+    {"SW2", "SF"},
+    {"SW3", "SG"},
+    {"SW4", "SH"},
+    {"SW5", "SI"},
+    {"SW6", "SJ"},
+};
+
 std::string YamlRawSwitchEncode(const RawSwitch& rhs)
 {
   Board::Type board = getCurrentBoard();
@@ -119,7 +133,7 @@ RawSwitch YamlRawSwitchDecode(const std::string& sw_str)
     try {
       mp_input_index = std::stoi(sw_str_tmp.substr(2, val_len - 3));
 
-      if (radioSettingsVersion < SemanticVersion(QString(CPN_ADC_REFACTOR_VERSION))) {
+      if (modelSettingsVersion < SemanticVersion(QString(CPN_ADC_REFACTOR_VERSION))) {
         if (IS_HORUS_X10(board) || IS_FAMILY_T16(board)) {
           if (mp_input_index > 2)
             mp_input_index += 2;
@@ -166,7 +180,12 @@ RawSwitch YamlRawSwitchDecode(const std::string& sw_str)
               val[1] >= 'A' && val[1] <= 'Z' &&
               val[2] >= '0' && val[2] <= '2')) {
 
-    int sw_idx = Boards::getSwitchYamlIndex(sw_str_tmp.substr(0, val_len - 1).c_str(), BoardJson::YLT_REF);
+    std::string tmp = sw_str_tmp.substr(0, val_len - 1);
+
+    if (modelSettingsVersion < SemanticVersion(QString(CPN_ADC_REFACTOR_VERSION)) && IS_JUMPER_TPRO(board))
+      tmp = DataHelpers::getStringTagMappingName(funcSwitchConversionTable, tmp.c_str());
+
+    int sw_idx = Boards::getSwitchYamlIndex(tmp.c_str(), BoardJson::YLT_REF);
     if (sw_idx >= 0) {
       rhs.type = SWITCH_TYPE_SWITCH;
       rhs.index = sw_idx * 3 + (val[val_len - 1] - '0' + 1);

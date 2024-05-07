@@ -285,7 +285,7 @@
 #define TR_TTRACE                      TR("StopaPlynu", INDENT "Stopa plynu")
 #define TR_TTRIM                       TR3("TrimVolnob.", INDENT "Trim jen volnoběh", "Trim jen pro volnoběh")
 #define TR_TTRIM_SW                    TR("T-Trim-Sw", INDENT "Trim spínač")
-#define TR_BEEPCTR                     TR3("Středy \200\201", "Pípat středy \200\201", "Pípat středy")
+#define TR_BEEPCTR                     TR("Pípat střed", "Pípnutí při středové poloze")
 #define TR_USE_GLOBAL_FUNCS            TR("Glob.Funkce", "Použít globální funkce")
 #define TR_PROTOCOL                    "Protokol"
 #define TR_PPMFRAME                    INDENT "PPM modulace"
@@ -430,7 +430,7 @@
   #define TR_SETMIDPOINT               CENTER "\006NASTAVIT STŘED POTU"
   #define TR_MOVESTICKSPOTS            CENTER "\002HÝBAT TOČIT/PLYN/POTY/OSY"
 #else
-  #define TR_SETMIDPOINT               TR(CENTER "\006NASTAVIT STŘED OSY", "\004STŘED OSY/SLIDERU")
+  #define TR_SETMIDPOINT               TR(CENTER "\006NASTAVIT STŘED OSY", CENTER "\004STŘED OSY/SLIDERU")
   #define TR_MOVESTICKSPOTS            CENTER "\007HÝBAT OSY/POTY"
 #endif
 #endif
@@ -1298,3 +1298,11 @@
 #define TR_CREATE_NEW             "Vytvořit"
 
 #define TR_MIX_SLOW_PREC          TR("Přesnost zpomal", "Přesnost zpomalení")
+
+#define TR_THEME_EXISTS           "Adresář vzhledu s tímto názvem již existuje."
+
+#define TR_DATE_TIME_WIDGET       "Datum a čas"
+#define TR_RADIO_INFO_WIDGET      "Informace o vysílačce"
+#define TR_LOW_BATT_COLOR         "Vybitá baterie"
+#define TR_MID_BATT_COLOR         "Středně nabitá baterie"
+#define TR_HIGH_BATT_COLOR        "Plně nabitá baterie"

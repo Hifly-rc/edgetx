@@ -288,7 +288,7 @@
 #define TR_TTRACE                       TR("Källa", INDENT "Källa")
 #define TR_TTRIM                        TR("Gastrimm", INDENT "Trimma endast tomgång")
 #define TR_TTRIM_SW                     TR("Trimmknp", INDENT "Trimmknapp")
-#define TR_BEEPCTR                      TR("Cent.pip", "Centerpip")
+#define TR_BEEPCTR                      TR("Cntr. pip", "Pip när centrerad")
 #define TR_USE_GLOBAL_FUNCS             TR("Glob.funk.", "Anv. globala funk.")
 #define TR_PROTOCOL                     TR("Proto.", "Protokoll")
 #define TR_PPMFRAME                     INDENT "PPM-paket"
@@ -1322,3 +1322,11 @@
 #define TR_CREATE_NEW                   "Skapa"
 
 #define TR_MIX_SLOW_PREC                TR("Dröj preci.", "Fördröj upp/ner precision")
+
+#define TR_THEME_EXISTS                 "Det finns redan ett tema med samma namn"
+
+#define TR_DATE_TIME_WIDGET             "Datum & Tid"
+#define TR_RADIO_INFO_WIDGET            "Radioinformation"
+#define TR_LOW_BATT_COLOR               "Lågt batteri"
+#define TR_MID_BATT_COLOR               "Medium batteri"
+#define TR_HIGH_BATT_COLOR              "Högt batteri"

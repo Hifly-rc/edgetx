@@ -153,6 +153,7 @@ void boardInit()
     pwrOn();  // required to get bat adc reads
     INTERNAL_MODULE_OFF();
     EXTERNAL_MODULE_OFF();
+    delay_ms(2000); // let this stabilize
 
     while (usbPlugged()) {
       //    // Let it charge ...
@@ -214,7 +215,7 @@ void boardInit()
   ws2812_update(&_led_timer);
 #endif
 
-#if defined(DEBUG)
+#if defined(DEBUG) && defined(AUX_SERIAL)
   serialSetMode(SP_AUX1, UART_MODE_DEBUG);                // indicate AUX1 is used
   serialInit(SP_AUX1, UART_MODE_DEBUG);                   // early AUX1 init
 #endif

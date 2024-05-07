@@ -277,7 +277,7 @@
 #define TR_TTRACE                      TR("Т-источник", INDENT "Источник")
 #define TR_TTRIM                       TR("Т-трим-ХХ", INDENT "Только трим хх")
 #define TR_TTRIM_SW                    TR("Т-трим-перек", INDENT "Трим перек")
-#define TR_BEEPCTR                     TR("Цент. звук", "Звук в центре")
+#define TR_BEEPCTR                     TR("Звук на цен", "Звук на центре")
 #define TR_USE_GLOBAL_FUNCS            TR("Глоб. функц", "Глоб функц")
 #define TR_PROTOCOL                    TR("Проток", "Протокол")
   #define TR_PPMFRAME                  INDENT "Фрейм PPM"
@@ -1288,3 +1288,11 @@
 #define TR_CREATE_NEW             "Создать"
 
 #define TR_MIX_SLOW_PREC          TR("Точн замедл", "Точность замедления")
+
+#define TR_THEME_EXISTS           "Уже есть каталог с таким названием"
+
+#define TR_DATE_TIME_WIDGET       "Дата и время"
+#define TR_RADIO_INFO_WIDGET      "Инфо о пульте"
+#define TR_LOW_BATT_COLOR         "Разряженная АКБ"
+#define TR_MID_BATT_COLOR         "Середина АКБ "
+#define TR_HIGH_BATT_COLOR        "Заряженная АКБ"

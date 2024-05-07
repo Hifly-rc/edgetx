@@ -19,23 +19,13 @@
  * GNU General Public License for more details.
  */
 
-#ifndef _CONFIRM_DIALOG_H_
-#define _CONFIRM_DIALOG_H_
+#pragma once
 
-#include "dialog.h"
+void drawFatalErrorScreen(const char* message);
+void runFatalErrorScreen(const char* message);
 
-class ConfirmDialog : public Dialog
-{
- public:
-  ConfirmDialog(Window* parent, const char* title, const char* message,
-                std::function<void(void)> confirmHandler,
-                std::function<void(void)> cancelHandler = nullptr);
-
- protected:
-  std::function<void(void)> confirmHandler;
-  std::function<void(void)> cancelHandler;
-
-  void onCancel() override;
-};
-
-#endif  // _CONFIRM_DIALOG_H_
+// Screen templates
+void drawSleepBitmap();
+void drawShutdownAnimation(uint32_t duration, uint32_t totalDuration,
+                           const char* message);
+void cancelShutdownAnimation();

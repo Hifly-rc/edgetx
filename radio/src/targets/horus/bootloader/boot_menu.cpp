@@ -33,17 +33,17 @@
 const uint8_t __bmp_plug_usb[] {
 #include "bmp_plug_usb.lbm"
 };
-LZ4Bitmap BMP_PLUG_USB(BMP_ARGB4444, __bmp_plug_usb);
+LZ4BitmapBuffer BMP_PLUG_USB(BMP_ARGB4444, (LZ4Bitmap*)__bmp_plug_usb);
 
 const uint8_t __bmp_usb_plugged[] {
 #include "bmp_usb_plugged.lbm"
 };
-LZ4Bitmap BMP_USB_PLUGGED(BMP_ARGB4444, __bmp_usb_plugged);
+LZ4BitmapBuffer BMP_USB_PLUGGED(BMP_ARGB4444, (LZ4Bitmap*)__bmp_usb_plugged);
 
 #define BL_GREEN      COLOR2FLAGS(RGB(73, 219, 62))
 #define BL_RED        COLOR2FLAGS(RGB(229, 32, 30))
-#define BL_BACKGROUND COLOR2FLAGS(BLACK)
-#define BL_FOREGROUND COLOR2FLAGS(WHITE)
+#define BL_BACKGROUND COLOR_BLACK
+#define BL_FOREGROUND COLOR_WHITE
 #define BL_SELECTED   COLOR2FLAGS(RGB(11, 65, 244)) // deep blue
 
 extern BitmapBuffer * lcd;
@@ -140,16 +140,21 @@ void bootloaderDrawScreen(BootloaderState st, int opt, const char* str)
             memset(&tag, 0, sizeof(tag));
             extractFirmwareVersion(&tag);
 
-            lcd->drawText(168, 138, TR_BL_FORK, RIGHT | BL_FOREGROUND);
-            lcd->drawSizedText(174, 138, tag.fork, 6, BL_FOREGROUND);
+            if (strcmp(tag.flavour, FLAVOUR)) {
+              lcd->drawText(94, 168, LV_SYMBOL_CLOSE " " TR_BL_INVALID_FIRMWARE,
+                      BL_FOREGROUND);
+            } else {
+              lcd->drawText(168, 138, TR_BL_FORK, RIGHT | BL_FOREGROUND);
+              lcd->drawSizedText(174, 138, tag.fork, 6, BL_FOREGROUND);
 
-            lcd->drawText(168, 158, TR_BL_VERSION, RIGHT | BL_FOREGROUND);
-            lcd->drawText(174, 158, tag.version, BL_FOREGROUND);
+              lcd->drawText(168, 158, TR_BL_VERSION, RIGHT | BL_FOREGROUND);
+              lcd->drawText(174, 158, tag.version, BL_FOREGROUND);
 
-            lcd->drawText(168, 178, TR_BL_RADIO, RIGHT | BL_FOREGROUND);
-            lcd->drawText(174, 178, tag.flavour, BL_FOREGROUND);
+              lcd->drawText(168, 178, TR_BL_RADIO, RIGHT | BL_FOREGROUND);
+              lcd->drawText(174, 178, tag.flavour, BL_FOREGROUND);
 
-            lcd->drawText(78, 158, LV_SYMBOL_OK, BL_GREEN);
+              lcd->drawText(78, 158, LV_SYMBOL_OK, BL_GREEN);
+            }
           }
         }
 

@@ -19,8 +19,7 @@
  * GNU General Public License for more details.
  */
 
-#ifndef _TRANSLATIONS_H_
-#define _TRANSLATIONS_H_
+#pragma once
 
 #include <limits.h>
 #include "opentx_types.h"
@@ -418,7 +417,7 @@ extern const char STR_GHOST_MENU_LABEL[];
 extern const char STR_STATUS[];
 extern const char STR_BLDELAY[];
 
-#if defined(PWM_BACKLIGHT) || defined(COLORLCD)
+#if defined(COLORLCD)
 extern const char STR_BLONBRIGHTNESS[];
 extern const char STR_BLOFFBRIGHTNESS[];
 extern const char STR_KEYS_BACKLIGHT[];
@@ -713,6 +712,8 @@ extern const char STR_BACKUP_MODEL[];
 extern const char STR_RESTORE_MODEL[];
 extern const char STR_DELETE_ERROR[];
 extern const char STR_SDCARD_ERROR[];
+extern const char STR_SDCARD[];
+extern const char STR_NO_FILES_ON_SD[];
 extern const char STR_NO_SDCARD[];
 extern const char STR_SDCARD_FULL[];
 extern const char STR_SDCARD_FULL_EXT[];
@@ -1283,9 +1284,13 @@ extern const char STR_SELECT_MENU_INV[];
 extern const char* const STR_SORT_ORDERS[];
 extern const char STR_SORT_MODELS_BY[];
 extern const char STR_CREATE_NEW[];
+extern const char STR_THEME_EXISTS[];
+
+extern const char STR_DATE_TIME_WIDGET[];
+extern const char STR_RADIO_INFO_WIDGET[];
+extern const char STR_LOW_BATT_COLOR[];
+extern const char STR_MID_BATT_COLOR[];
+extern const char STR_HIGH_BATT_COLOR[];
 #endif
 
 extern const char STR_MIX_SLOW_PREC[];
-
-#endif // _TRANSLATIONS_H_
-

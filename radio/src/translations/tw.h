@@ -276,7 +276,7 @@
 #define TR_TTRACE                      TR("輸入源", INDENT "輸入源")
 #define TR_TTRIM                       TR("油門微調僅怠速", INDENT "油門微調只調整怠速")
 #define TR_TTRIM_SW                    TR("微調選擇", INDENT "微調選擇")
-#define TR_BEEPCTR                     TR("中點蜂鳴", "中點蜂鳴")
+#define TR_BEEPCTR                     TR("中點提示音", "中點蜂鳴提示音")
 #define TR_USE_GLOBAL_FUNCS            TR("全局功能", "全局功能可介入")
 #define TR_PPMFRAME INDENT             "PPM幀"
 #define TR_REFRESHRATE                 TR(INDENT "刷新率", INDENT "刷新速率")
@@ -1114,7 +1114,7 @@
 #define TR_CURRENTSENSOR               "傳感器"
 #define TR_AUTOOFFSET                  "自動偏移值"
 #define TR_ONLYPOSITIVE                "正向"
-#define TR_FILTER                      "濾波"
+#define TR_FILTER                      "濾波器"
 #define TR_TELEMETRYFULL               TR("項目已滿!", "回傳項目已滿!")
 #define TR_INVERTED_SERIAL             INDENT "反向"
 #define TR_IGNORE_INSTANCE             TR(INDENT "忽略ID", INDENT "忽略ID鑑別")
@@ -1158,7 +1158,7 @@
 #define TR_MENU_OTHER                  "其它"
 #define TR_MENU_INVERT                 "反向"
 #define TR_AUDIO_MUTE                  TR("自動靜音","音頻停播時自動靜音")
-#define TR_JITTER_FILTER               "類比輸入濾波"
+#define TR_JITTER_FILTER               "ADC濾波器"
 #define TR_DEAD_ZONE                   "死區"
 #define TR_RTC_CHECK                   TR("檢查時間電池", "檢查時間驅動電池電壓")
 #define TR_AUTH_FAILURE                "驗證失敗"
@@ -1209,7 +1209,7 @@
 
 // Main menu
 #define TR_MAIN_MENU_SELECT_MODEL     "模型選擇"
-#define TR_MAIN_MENU_MANAGE_MODELS    "模型\n管理"
+#define TR_MAIN_MENU_MANAGE_MODELS    "模型管理"
 #define TR_MAIN_MENU_MODEL_NOTES      "模型說明"
 #define TR_MAIN_MENU_CHANNEL_MONITOR  "通道查看"
 #define TR_MAIN_MENU_MODEL_SETTINGS   "模型設置"
@@ -1288,3 +1288,13 @@
 #define TR_CREATE_NEW             "新建"
 
 #define TR_MIX_SLOW_PREC          TR("慢放精度", "慢放精度 上行/下行")
+
+#define TR_THEME_EXISTS           "已存在同名主題目錄 !"
+
+#define ROTORFLIGHT_LUA_CH        "按敗板半保備閉標表並波補不菜參叉差償超車持池出存打大帶待怠單到等低地點電調定動度舵二翻方放飛副復負高跟關管航號何合后護環緩回混火或機積集幾計加間減件降交角教接階截進救距開控寬饋拉來累類連練量零靈率濾螺落門面敏模目逆爬盤偏頻平其啟器前曲取確然入剎上設身升失時使式釋試數衰水瞬順速縮他態體停通退陀微尾位文穩誤息熄下陷限線相響向消小校斜新心信型行懸旋循壓頁一移儀益翼因應用油右預援源載增針正直值止置制中重軸主轉准子自蹤總最左耦"
+
+#define TR_DATE_TIME_WIDGET       "日期和時間"
+#define TR_RADIO_INFO_WIDGET      "遙控器信息"
+#define TR_LOW_BATT_COLOR         "低電量"
+#define TR_MID_BATT_COLOR         "中電量"
+#define TR_HIGH_BATT_COLOR        "高電量"

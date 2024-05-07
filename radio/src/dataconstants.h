@@ -19,8 +19,7 @@
  * GNU General Public License for more details.
  */
 
-#ifndef _DATACONSTANTS_H_
-#define _DATACONSTANTS_H_
+#pragma once
 
 #include "board.h"
 #include "storage/yaml/yaml_defs.h"
@@ -126,6 +125,7 @@ enum CurveType {
   #define LEN_MODEL_NAME               10
   #define LEN_TIMER_NAME               3
   #define LEN_FLIGHT_MODE_NAME         6
+  #define LEN_BITMAP_NAME              0
   #define LEN_EXPOMIX_NAME             6
   #define LEN_CHANNEL_NAME             4
   #define LEN_INPUT_NAME               3
@@ -683,5 +683,3 @@ enum PPMUnit {
     PPM_PERCENT_PREC1,
     PPM_US
 };
-
-#endif // _DATACONSTANTS_H_
